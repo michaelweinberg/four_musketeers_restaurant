@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return render_template('index.html', utc_dt=datetime.datetime.utcnow())
+    return render_template('home.html', utc_dt=datetime.datetime.utcnow())
 
 @app.route('/login')
 def about():
