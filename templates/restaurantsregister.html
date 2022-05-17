@@ -1,10 +1,19 @@
 {% extends "base.html" %}
-{% set active_page = 'login' %}
-{% block title %} Login {% endblock %}
+{% set active_page = 'restaurantsregister' %}
+{% block title %} Restaurantsregister {% endblock %}
 {% block content %} 
+<text>
+    (Please register！)
+</text>
 <div class="w-50">
 <form method="post">
   {{ form.csrf_token }}
+  <div class="mb-3">
+    <fieldset class="form-field">
+      {{ form.name.label(class="form-label") }}
+      {{ form.name(class="form-control") }}
+      </fieldset>
+    </div>
   <div class="mb-3">
 	<fieldset class="form-field">
 		{{ form.email.label(class="form-label") }}
@@ -24,6 +33,18 @@
 		{{ form.password(class="form-control") }} 	
     </fieldset>
   </div>
+  <div class="mb-3">
+    <fieldset class="form-field">
+      {{ form.address.label(class="form-label") }}
+      {{ form.address(class="form-control") }}	
+      </fieldset>
+    </div>
+    <div class="mb-3">
+      <fieldset class="form-field">
+        {{ form.phone.label(class="form-label") }}
+        {{ form.phone(class="form-control") }}	
+        </fieldset>
+      </div>
   {{ form.submit(class="btn btn-primary") }}
 </form>
 </div>
