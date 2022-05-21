@@ -1,19 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>FlaskApp</title>
-<title>Welcome to Four Mustkeeter Login Ugly Page</title>
-</head>
-<body>
+{% extends "base.html" %} {% block title %} Login {% endblock %} {% block main
+    %}
+<div class="w3-container w3-padding-64 w3-blue-grey w3-grayscale-min w3-xlarge" id="login">
+    <div class="w3-content">
+      <h1 class="w3-center w3-jumbo" style="margin-bottom:64px">Login</h1>
+      <form action="" method="post">
+    <label for="name">User name:</label>
+    <input type="text" id="name" name="name"><br><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password"><br><br>
+    <input type="submit" value="Login">
+  </form>
+      
+    </div>
+  </div>
 
-<form>
-<input type="button" value="Go back!" onclick="history.back()">
-</form>
-
-<h1>Please login and place your order</h1>
-<p> Remember If you your food doesn't arrive in 24 hours or less.It is on us!.</p>
-
-</body>
-</html>
-
+  {% endblock %}  

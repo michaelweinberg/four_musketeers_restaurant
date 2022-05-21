@@ -3,5 +3,6 @@ RUN pip install flask flask-wtf email_validator requests flask-login flask-sqlal
 WORKDIR /app
 COPY app.py /app
 COPY templates /app/templates
+COPY static /app/static
 CMD python app.py
 

@@ -1,15 +1,21 @@
-<!DOCTYPE html>
-<html lang= "en">
-<head>
-    <meta charset="UTF-8">
-<title>Welcome to Four Mustkeeter Food Delivery Service</title>
-</head>
-<body>
+{% extends "base.html" %} {% block title %} Home {% endblock %} {% block main
+    %}
+    <!-- Header with image -->
+<header class="bgimg w3-display-container w3-grayscale-min" id="home">
+    <div class="w3-display-bottomleft w3-padding">
+      <span class="w3-tag w3-xlarge">Open from 10am to 12pm</span>
+    </div>
+    <div class="w3-display-middle w3-center">
+      <span class="w3-text-white w3-hide-small" style="font-size:100px">pizza<br>DELIVERY SYSTEM</span>
+      <span class="w3-text-white w3-hide-large w3-hide-medium" style="font-size:60px"><b>pizza<br>DELIVERY SYSTEM</b></span>
+      <p><a href="/menu" class="w3-button w3-xxlarge w3-black">Let me see the menu</a></p>
+    </div>
+  </header>
 
-
-<h1>We do not cook We just deliver it fast and hot</h1>
-<p>If you your food doesn't arrive in 24 hours or less.  It is on us!.</p>
-<h3>{{ utc_dt }}</h3>
-</body>
-</html>
-
+  
+  
+  
+  
+  <!-- Login -->
+  
+{% endblock %}  
