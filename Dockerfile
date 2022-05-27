@@ -1,11 +1,16 @@
 FROM python:3.10.4-slim-bullseye
-RUN pip install --upgrade pip
-RUN pip install flask flask-wtf email_validator requests flask-login flask-sqlalchemy flask_login
-COPY requirements.txt .
-RUN pip3 install -r requirements.txt
-WORKDIR /app
-COPY app.py /app
-COPY templates /app/templates
-COPY static /app/static
-CMD python app.py
 
+#make and change to a working directory inside the container
+WORKDIR /usr/src/flask-project
+
+#copy all the files into this directory including requirements.txt
+COPY . .
+
+#we upgrade pip to the latest version 
+RUN pip3 install --upgrade pip
+
+#run pip and install all the packages in requirements.txt - you can specify specific versions this way
+RUN pip3 install -r requirements.txt
+
+#default command
+CMD python app.py

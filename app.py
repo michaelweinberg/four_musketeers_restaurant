@@ -1,18 +1,51 @@
-from flask import Flask, render_template, redirect, flash, url_for
-from flask_wtf import FlaskForm
-from wtforms import DateField, DecimalField, SubmitField, StringField, PasswordField
-from wtforms.validators import DataRequired, NumberRange
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin
-import requests
-import datetime
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 
-SECRET_KEY = 'fehiu4y74gh894hg49t8t484'
-SQLALCHEMY_DATABASE_URI = "sqlite:///users.db"
+from wsgiref import validate
+from flask import Flask, render_template, request, redirect
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField,SubmitField
+from wtforms.validators import DataRequired, Length, EqualTo, Email
+from yelp import find_coffee
+from flask_login import current_user, login_user, login_required, logout_user
+from models import db, login, UserModel, RestaurantModel, MenuModel, OrderModel
+import datetime
+
+
+DBHOST= 'db'
+DBPORT= '5432'
+DBNAME= 'pglogindb'
 
 app = Flask(__name__)
+app.secret_key="a secret"
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://{user}:{passwd}@{host}:{port}/{db}'.format(
+    user=DBUSER,
+    passwd=DBPASS,
+    host=DBHOST,
+    port=DBPORT,
+    db=DBNAME
+)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db.init_app(app)
+login.init_app(app)
+
+def addUser(name, email, password, address, phone):
+    #check if email or username exits
+    user=UserModel()
+    user.set_password(password)
+    user.email=email
+    user.name=name
+    user.address=address
+    user.phone=phone
+    db.session.add(user)
+    db.session.commit()
+
+@app.before_first_request
+def create_table():
+    db.create_all()
+    user = UserModel.query.filter_by(email = "lhhung@uw.edu").first()
+    if user is None:
+        addUser("lhhung", "lhhung@uw.edu","qwerty","university of washington tocama", "1111111111")    
+        return 
 
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
@@ -124,6 +157,14 @@ def signup():
             return redirect(url_for('login'))
 
     return render_template("signup.html", form=form)    
+
+@app.route('/tester')
+def test():
+    userdata=UserModel.query.all()
+    menudata=MenuModel.query.all()
+    restaurantdata=RestaurantModel.query.all()
+    orderdata=OrderModel.query.all()
+    return render_template('test.html', userdata=userdata, menudata=menudata, restaurantdata=restaurantdata, orderdata=orderdata)
 
 
 if __name__ == "__main__":
