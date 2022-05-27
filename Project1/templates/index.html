@@ -1,0 +1,53 @@
+{% extends "base.html" %} {% block title %} Home {% endblock %} {% block main %}
+
+<div class="m-4">
+  <h1>Get Birthdays</h1>
+  <form method="POST" action="{{url_for('index')}}">
+    {{ form.csrf_token }}
+    <div class="mb-3">
+      <label for="birth_date">Birth Date</label>
+      {{ form.birth_date(class="form-control", id="birth_date")}}
+    </div>
+    <div class="mb-3">
+      <label for="how_many">How many</label>
+      {{ form.how_many(class="form-control", id="how_many")}}
+    </div>
+    <div class="mb-3">
+      {{ form.submit(Value="Get Birthdays",class="btn btn-primary")}}
+    </div>
+  </form>
+</div>
+
+{% if len(birthdays) > 0 %}
+
+<div class="">
+  <table class="table table-striped align-middle table-dark table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Birth Year</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in range(0, len(birthdays)) %}
+      <tr>
+        <td>{{i+1}}</td>
+        <td>
+          <img
+            src="{{birthdays[i].thumbnail}}"
+            alt="{{birthdays[i].name}}"
+            width="150px"
+            class="img-thumbnail"
+          />
+
+          {{birthdays[i]['name']}}
+        </td>
+        <td>{{birthdays[i]['year']}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endif %} {% endblock %}
