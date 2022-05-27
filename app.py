@@ -1,6 +1,6 @@
 
 from wsgiref import validate
-from flask import Flask, render_template, request, redirect, flash
+from flask import Flask, render_template, request, redirect, flash, url_for
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField,SubmitField
 from wtforms.validators import DataRequired, Length, EqualTo, Email
@@ -104,21 +104,16 @@ def home():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
-    form = LoginForm()
-
-    username = form.username.data
-    password = form.password.data
-
+    form=LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(username=username).first()
-        if user and user.verify_password(password):
-            login_user(user)
-            flash("Logged in successfully")
-            return redirect(url_for("index"))
-        else:
-            flash("Invalid username or password. Please try again")
-            return redirect(url_for("login"))
-    return render_template("login.html", form=form)
+        if request.method == "POST":
+            email=request.form["email"]
+            pw=request.form["password"]
+            user = UserModel.query.filter_by(email = email).first()
+            if user is not None and user.check_password(pw):
+                login_user(user)
+                return redirect('/menu')
+    return render_template("login.html",form=form)  
 
 @app.route('/menu')
 def menu():
