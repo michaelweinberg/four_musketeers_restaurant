@@ -1,6 +1,6 @@
 
 from wsgiref import validate
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField,SubmitField
 from wtforms.validators import DataRequired, Length, EqualTo, Email
