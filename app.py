@@ -112,6 +112,7 @@ def login():
             user = UserModel.query.filter_by(email = email).first()
             if user is not None and user.check_password(pw):
                 login_user(user)
+                flash("we are logging in")
                 return redirect('/menu')
     return render_template("login.html",form=form)  
 
