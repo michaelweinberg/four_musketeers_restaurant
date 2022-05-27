@@ -5,17 +5,21 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField,SubmitField
 from wtforms.validators import DataRequired, Length, EqualTo, Email
 from yelp import find_coffee
-from flask_login import current_user, login_user, login_required, logout_user
+from flask_sqlalchemy import SQLAlchemy
+#from flask_login import current_user, login_user, login_required, logout_user
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from models import db, login, UserModel, RestaurantModel, MenuModel, OrderModel
 import datetime
 
 
+DBUSER= 'lhhung'
+DBPASS= 'password'
 DBHOST= 'db'
 DBPORT= '5432'
 DBNAME= 'pglogindb'
 
 app = Flask(__name__)
-app.secret_key="a secret"
+SECRET_KEY = 'fehiu4y74gh894hg49t8t484'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://{user}:{passwd}@{host}:{port}/{db}'.format(
     user=DBUSER,
     passwd=DBPASS,
@@ -23,6 +27,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://{user}:{passwd}@{
     port=DBPORT,
     db=DBNAME
 )
+app.config['SECRET_KEY'] = SECRET_KEY
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
@@ -46,9 +51,6 @@ def create_table():
     if user is None:
         addUser("lhhung", "lhhung@uw.edu","qwerty","university of washington tocama", "1111111111")    
         return 
-
-app.config['SECRET_KEY'] = SECRET_KEY
-app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
@@ -75,12 +77,12 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password, password)
 
 
-class MainAppForm(FlaskForm):
-    birth_date = DateField("date", format='%Y-%m-%d',
-                           validators=[DataRequired()])
-    how_many = DecimalField("how many", validators=[
-        DataRequired(), NumberRange(1, 20)])
-    submit = SubmitField("submit")
+#class MainAppForm(FlaskForm):
+#    birth_date = DateField("date", format='%Y-%m-%d',
+#                           validators=[DataRequired()])
+#    how_many = DecimalField("how many", validators=[
+#        DataRequired(), NumberRange(1, 20)])
+#    submit = SubmitField("submit")
 
 
 class LoginForm(FlaskForm):
