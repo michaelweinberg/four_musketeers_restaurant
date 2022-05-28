@@ -1,0 +1,28 @@
+{% extends "base.html" %} {% block title %} Login {% endblock %} {% block main
+    %}
+<div class="w3-container w3-padding-64 w3-blue-grey w3-grayscale-min w3-xlarge" id="login">
+    <div class="w3-content">
+      <h1 class="w3-center w3-jumbo" style="margin-bottom:64px">Login</h1>
+      <form class="bg-light p-3" method="POST" action="{{ url_for('login') }}">
+        {{form.csrf_token}}
+        <div class="mb-3">
+          <label for="username">Username</label>
+          {{form.username( id="username", class="form-control")}}
+        </div>
+        <div class="mb-3">
+          <label for="password">Password</label>
+          {{form.password( id="password", class="form-control")}}
+        </div>
+        <div class="mb-3">
+          {{form.submit(value="Login", class="btn btn-primary mb-3")}}
+        </div>
+      </form>
+
+      <p class="text-white">
+        Don't have an account yet? <a href="{{ url_for('signup') }}">Sign Up</a>
+      </p>
+      
+    </div>
+  </div>
+
+  {% endblock %}  
