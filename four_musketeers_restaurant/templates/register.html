@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% set active_page = 'register' %}
 {% block title %} Register {% endblock %}
-{% block content %} 
+{% block main %} 
 <text>
     (Please register！)
 </text>
-<div class="w-50">
+<div class="w-50" style="padding-top:100px;">
 <form method="post">
   {{ form.csrf_token }}
   <div class="mb-3">

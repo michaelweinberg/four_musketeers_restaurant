@@ -121,7 +121,7 @@ def register():
                 return redirect('/login')
             else:
                 addUser(name, email, pw, address, phone)
-                return redirect('/login')
+                return redirect('/menu')
     # return render_template("register.html")
     return render_template("register.html",form=form)
 
@@ -198,7 +198,6 @@ def restaurantsaddmenu():
 @app.route("/menu",methods=['GET','POST'])
 # @login_required
 def showMenu():
-    print('cccccccc')
     myData=MenuModel.query.all()
     return render_template("menu.html", myData=myData)
 
@@ -218,11 +217,9 @@ def addorder(order_id,product_id, product_name, product_quantity, price_each, re
 @app.route("/order",methods=['GET','POST'])
 @login_required
 def myOrder():
-    print('bbbbbbbbb')
     myData=MenuModel.query.all()
     
     if request.method == "POST":
-        print('aaaaaaaaaa')
         s_option=request.form.getlist("s_option")
         print(s_option)
         user_id=current_user.id
