@@ -8,12 +8,12 @@
     {% for item in myData %}
         <div class="list-group">
             <label class="list-group-item"> 
-                <input class="form-check-input me-1" type="checkbox" name="s_option" value="{{item['id']}}">
+                <input class="form-check-input me-1" type="checkbox" name="s_option">
                 {{item['name']}}  {{item['price']}} {{item['restaurant']}}
             </label>
         </div>
     {% endfor %}
-    <button type="submit" class="btn btn-primary">add to order</button>
+    <button type="submit" class="btn btn-primary">submit order</button>
 </form>
 
 
