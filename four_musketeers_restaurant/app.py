@@ -36,11 +36,6 @@ class addmenuForm(FlaskForm):
 #     name=SelectField(label="name", validators=[DataRequired()],choices=order)
 #     submit=SubmitField(label="Confirm")
 
-DBUSER= 'lhhung'
-DBPASS= 'password'
-DBHOST= 'db'
-DBPORT= '5432'
-DBNAME= 'pglogindb'
 
 app = Flask(__name__)
 app.secret_key="a secret"
