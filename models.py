@@ -68,13 +68,23 @@ class OrderModel (UserMixin, db.Model):
     __tablename__ = 'order'
     
     id = db.Column(db.Integer, primary_key=True)
+    order_id=db.Column(db.String(80), nullable=False)
     product_id= db.Column(db.Integer, nullable=False)
     product_name = db.Column(db.String(80), nullable=False)
     product_quantity = db.Column(db.Integer)
     price_each = db.Column(db.String(80), nullable=False)
     restaurant = db.Column(db.String(80), nullable=False)
     user_id = db.Column(db.Integer, nullable=False)
-    
+    order_status=db.Column(db.String(80), nullable=False)
+
+    def change_status(self, order_status):
+        self.order_status=order_status
+
+    def check_status(self):
+        return self.order_status
+
+    def chaneg_product_quantity(self, quantity):
+        self.product_quantity=quantity
 
     def __repr__(self) -> str:
         return super().__repr__() 

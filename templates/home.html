@@ -1,15 +1,26 @@
-<!DOCTYPE html>
-<html lang= "en">
-<head>
-    <meta charset="UTF-8">
-<title>Welcome to Four Mustkeeter Food Delivery Service</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% set active_page = 'home' %}
+{% block title %} Home {% endblock %}
+{% block content %}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Rating</th>
+    </tr>
+  </thead>
+  <tbody>
 
+		{% for business in myData %}
+			<tr>
+				<td class="align-middle">{{ loop.index0 +1 }}</td>
+				<td class="align-middle"> <img src= {{ business['image_url'] }} class="img-thumbnail" style="max-height:50px;max-width:50px;"> {{business['name']}}</td>			
+				<td class="align-middle">{{ business['rating']}}</td>			
+			</tr>
+		
+    {% endfor %}
 
-<h1>We do not cook We just deliver it fast and hot</h1>
-<p>If you your food doesn't arrive in 24 hours or less.  It is on us!.</p>
-<h3>{{ utc_dt }}</h3>
-</body>
-</html>
-
+  </tbody>
+</table>
+ {% endblock %}
