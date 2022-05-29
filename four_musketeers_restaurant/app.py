@@ -6,7 +6,6 @@ from flask import Flask, render_template, request, redirect
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField,SubmitField,SelectField
 from wtforms.validators import DataRequired, Length, EqualTo, Email
-from yelp import find_coffee
 import uuid
 from flask_login import current_user, login_user, login_required, logout_user
 from models import db, login, UserModel, RestaurantModel, MenuModel, OrderModel
