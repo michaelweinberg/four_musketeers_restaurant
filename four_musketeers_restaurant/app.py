@@ -9,7 +9,8 @@ from wtforms.validators import DataRequired, Length, EqualTo, Email
 import uuid
 from flask_login import current_user, login_user, login_required, logout_user
 from models import db, login, UserModel, RestaurantModel, MenuModel, OrderModel
-from secrets import DBUSER, DBPASS, DBHOST, DBPORT, DBNAME
+from seeks import DBUSER, DBPASS, DBHOST, DBPORT, DBNAME
+
 
 class loginForm(FlaskForm):
     email=StringField(label="Enter email", validators=[DataRequired(),Email()])
