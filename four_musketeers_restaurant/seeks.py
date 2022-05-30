@@ -1,5 +1,0 @@
-DBUSER='fm_db_user'
-DBPASS='6906b8af-09sk-459f-abea-b08e920kdae'
-DBHOST='db'
-DBPORT='5432'
-DBNAME='pglogindb'
