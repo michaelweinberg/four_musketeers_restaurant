@@ -1,34 +1,26 @@
-{% extends "base.html" %}
-{% set active_page = 'login' %}
-{% block title %} Login {% endblock %}
-{% block main %} 
+{% extends "base.html" %} {% block title %} Login {% endblock %} {% block main
+    %}
 <div class="w3-container w3-padding-64 w3-blue-grey w3-grayscale-min w3-xlarge" id="login">
     <div class="w3-content">
       <h1 class="w3-center w3-jumbo" style="margin-bottom:64px">Login</h1>
-      <form method="post">
-        {{ form.csrf_token }}
+      <form class="bg-light p-3" method="POST" action="{{ url_for('login') }}">
+        {{form.csrf_token}}
         <div class="mb-3">
-          <fieldset class="form-field">
-              {{ form.email.label(class="form-label") }}
-              {{ form.email(class="form-control") }}
-              {% if form.email.errors %}
-                  <ul class="errors">
-                    {% for error in form.email.errors %}
-                      `  <li>{{ error }}</li>
-                    {% endfor %}
-                  </ul>		   
-              {% endif %} 	
-          </fieldset>
+          <label for="name">Username</label>
+          {{form.name( id="name", class="form-control")}}
         </div>
         <div class="mb-3">
-          <fieldset class="form-field">
-              {{ form.password.label(class="form-label") }}
-              {{ form.password(class="form-control") }} 	
-          </fieldset>
+          <label for="password">Password</label>
+          {{form.password( id="password", class="form-control")}}
         </div>
-        {{ form.submit(class="btn btn-primary") }}
+        <div class="mb-3">
+          {{form.submit(value="Login", class="btn btn-primary mb-3")}}
+        </div>
       </form>
 
+      <p class="text-white">
+        Don't have an account yet? <a href="{{ url_for('signup') }}">Sign Up</a>
+      </p>
       
     </div>
   </div>

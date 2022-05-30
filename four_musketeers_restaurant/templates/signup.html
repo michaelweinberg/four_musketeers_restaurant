@@ -1,0 +1,39 @@
+{% extends "base.html" %} {% block title %} Sign-Up {% endblock %} {% block main
+%}
+
+
+<div class="w3-container w3-padding-64 w3-blue-grey w3-grayscale-min w3-xlarge" id="signup">
+  <div class="w3-content">
+      <h1 class="w3-center w3-jumbo" style="margin-bottom:64px">Sign-Up</h1>
+
+  
+  <form class="bg-light p-3" method="POST" action="{{ url_for('signup') }}">
+    {{form.csrf_token}}
+    <div class="mb-3">
+      <label for="name">Username</label>
+      {{form.name( id="name", class="form-control")}}
+    </div>
+    <div class="mb-3">
+      <label for="email">Email</label>
+      {{form.email( id="email", class="form-control")}}
+    </div>
+    <div class="mb-3">
+      <label for="password">Password</label>
+      {{form.password( id="password", class="form-control", minlength=8)}}
+    </div>
+    <div class="mb-3">
+      <label for="address">Address</label>
+      {{form.address( id="address", class="form-control")}}
+    </div>
+    <div class="mb-3">
+      <label for="phone">Phone</label>
+      {{form.phone( id="phone", class="form-control")}}
+    </div>
+    <div class="mb-3">
+      {{form.submit(value="Sign-Up", class="btn btn-primary mb-3")}}
+    </div>
+  </form>
+  </div>
+</div>
+
+{% endblock %}

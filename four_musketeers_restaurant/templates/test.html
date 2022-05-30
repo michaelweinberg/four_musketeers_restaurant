@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<title>test</title>
+<text>
+    (User Information)
+</text>
+<br><br>
+{% for user in userdata %}
+{{user['name']}} {{user['address']}}
+<br><br>
+{% endfor %}
+<text>
+    (Restaurant Information)
+</text>
+<br><br>
+{% for restaurant in restaurantdata %}
+{{restaurant['name']}} {{restaurant['address']}}
+<br><br>
+{% endfor %}
+<text>
+    (Menu Information)
+</text>
+<br><br>
+{% for item in menudata %}
+{{item['name']}} {{item['restaurant']}} {{item['price']}}
+<br><br>
+{% endfor %}
+<text>
+    (Order Information)
+</text>
+<br><br>
+{% for order in orderdata %}
+{{order['id']}} {{order['product_name']}} {{order['restaurant']}} {{order['user_id']}}
+<br><br>
+{% endfor %}
