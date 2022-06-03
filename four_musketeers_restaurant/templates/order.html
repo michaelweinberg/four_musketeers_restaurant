@@ -1,0 +1,47 @@
+{% extends "base.html" %} {% block title %} Menu {% endblock %} {% block main %}
+
+<form class="bg-light p-3" method="POST" action="{{ url_for('order') }}">
+<div class="w3-container w3-padding-64 w3-blue-grey w3-grayscale-min w3-xxlarge" id="menu">
+    <div class="w3-content">
+    
+      <h1 class="w3-center w3-jumbo" style="margin-bottom:64px">Order Menu</h1>
+        {% for item in myData %}
+  
+        <h1><b>{{item['name']}}</b> <span class="w3-right w3-tag w3-dark-grey w3-round">${{item['price']}}</span></h1>
+        <input type="button" class="min"  name="" onclick="min_func('{{item['id']}}')" value="-" />
+        <input class="text_box" id="{{item['id']}}" name="{{item['id']}}" type="text" value="0" />
+        <input class="add" name="" type="button" onclick="add_func('{{item['id']}}')" value="+" />
+       
+        <hr>
+        {% endfor %}
+    
+    </div>
+</div>
+<button  type="submit" class="btn btn-primary mb-3">add to order</button>
+</form>
+<script>
+
+function min_func(id){
+    const t= $("#"+id)
+    t.val(parseInt(t.val())-1);
+}
+function add_func(id){
+    const t= $("#"+id)
+    t.val(parseInt(t.val())+1);
+}
+console.log('userdata');
+console.log("{{userdata}}");
+// var t = $(".text_box");
+// const min_func$(".add").click(function(){
+// t.val(parseInt(t.val())+1);
+// })
+// $(".min").click(function(){
+// t.val(parseInt(t.val())-1);
+// })
+// function setTotal(){
+// $("#total").html((parseInt(t.val())*3.95).toFixed(2));
+// }
+// setTotal();
+
+</script>
+  {% endblock %}  
