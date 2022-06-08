@@ -11,6 +11,9 @@ import uuid
 from flask_login import current_user, login_user, login_required, logout_user
 from models import db, login, UserModel, RestaurantModel, MenuModel, OrderModel
 import datetime
+import requests, json
+
+
 
 class LoginForm(FlaskForm):
     name = StringField("username", validators=[DataRequired()])
@@ -184,7 +187,42 @@ def checkout():
                 db.session.commit()
                 return redirect('/order')
 
-    return render_template("checkout.html", Data=Data, totalprice=totalprice)    
+    return render_template("checkout.html", Data=Data, totalprice=totalprice) 
+    
+#added this funtion 
+    
+
+def delivery_time(customer_address):
+       
+    #api key is required
+
+    # we need to add the add the code to read from a file here 
+  
+    # Take source as input
+    
+    #destination will be a fix point
+    #destination= input ("Enter Your Delivery Address: ")
+
+    destination = customer_address
+  
+    # Take destination as input from the database
+    #source = input("enter delivery address:")
+    source="933 Market St, Tacoma, WA 98402"
+  
+    # url variable store url 
+    url = "https://maps.googleapis.com/maps/api/distancematrix/json?key={0}&origins={1}&destinations={2}&mode=driving&language=en-EN&sensor=false".format(KEY,str(source),str(destination))
+  
+    # Get method of requests module and return response object
+     
+    req = requests.get(url + 'origins=' + source + '&destinations=' + destination + '&key=' + KEY)
+    # return json format result
+    x = req.json()
+
+    time = req.json()["rows"][0]["elements"][0]["duration"]["text"]
+
+    #returns the time
+    return(time)      
+       
 
 @app.route("/map",methods=['GET','POST'])
 def maptime():
@@ -195,11 +233,12 @@ def maptime():
     restaurant=RestaurantModel.query.filter_by(name=rest_name).first()
     rest_add=restaurant.address
     user_add=user.address
+    time=delivery_time(user_add)
     mes=""
     mes+=rest_add
     mes+="-->"
     mes+=user_add
-    return render_template("map.html",message=mes)
+    return render_template("map.html",message=mes,time=time,user_add=user_add)
 
 
 @app.route('/contact')
