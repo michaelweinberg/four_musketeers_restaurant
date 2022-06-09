@@ -14,11 +14,12 @@
        
         <hr>
         {% endfor %}
-    
+        <button  type="submit" class="btn btn-primary mb-3" >add to order</button>
     </div>
 </div>
-<button  type="submit" class="btn btn-primary mb-3">add to order</button>
+
 </form>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
 
 function min_func(id){
@@ -31,17 +32,6 @@ function add_func(id){
 }
 console.log('userdata');
 console.log("{{userdata}}");
-// var t = $(".text_box");
-// const min_func$(".add").click(function(){
-// t.val(parseInt(t.val())+1);
-// })
-// $(".min").click(function(){
-// t.val(parseInt(t.val())-1);
-// })
-// function setTotal(){
-// $("#total").html((parseInt(t.val())*3.95).toFixed(2));
-// }
-// setTotal();
 
 </script>
   {% endblock %}  

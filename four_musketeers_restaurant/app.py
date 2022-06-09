@@ -13,13 +13,11 @@ from models import db, login, UserModel, RestaurantModel, MenuModel, OrderModel
 import datetime
 import requests, json
 
-
-
 class LoginForm(FlaskForm):
     name = StringField("username", validators=[DataRequired()])
     password = PasswordField("password", validators=[DataRequired()])
     submit = SubmitField("submit")
-
+    
 class SignupForm(FlaskForm):
     name=StringField(label="Enter name", validators=[DataRequired(), Length(min=1,max=16)])
     email=StringField(label="Enter email", validators=[DataRequired(),Email()])
@@ -34,12 +32,6 @@ class OrderForm(FlaskForm):
     restaurant=StringField(label="restaurant", validators=[DataRequired(),Length(min=1,max=160)])
     quanty=StringField(label="quanty", validators=[DataRequired(),Length(min=1,max=160)])
     submit=SubmitField(label="Add to cart")
-
-# class confirmForm(FlaskForm):
-#     order=OrderModel.query.filter_by(user_id=current_user.id,order_status="not complete").all()
-#     name=SelectField(label="name", validators=[DataRequired()],choices=order)
-#     submit=SubmitField(label="Confirm")
-
 
 app = Flask(__name__)
 app.secret_key="a secret"
@@ -74,15 +66,11 @@ def create_table():
     if user is None:
         addUser("lhhung", "lhhung@uw.edu","qwerty","university of washington tocama", "1111111111")    
         return 
-@app.route("/home")
-@login_required
-def findCoffee():
-    return render_template("home.html", myData=find_coffee())
 
 @app.route('/')
-@login_required
 def home():
-    return render_template('home.html', utc_dt=datetime.datetime.utcnow())
+    return render_template('home.html')
+
 
 @app.route("/login",methods=['GET','POST'])
 def login():
@@ -172,14 +160,14 @@ def checkout():
     Data=OrderModel.query.filter_by(user_id=user_id, order_status='not complete').all()
     totalprice=0
     for item in Data:
-        totalprice+=int(item.price_each)*int(item.product_quantity)
+        totalprice+=float(item.price_each)*int(item.product_quantity)
     if request.method == 'POST':
         if request.form["action"] == "conform":
             for item in Data:
                 item.change_status("dilevering")
                 db.session.commit()
                 # flash('Order Success!')
-                return redirect('/map')
+            return redirect('/map')
         elif request.form['action']=="cancel":
             for item in Data:
                 id=item.id
@@ -222,7 +210,6 @@ def delivery_time(customer_address):
 
     #returns the time
     return(time)      
-       
 
 @app.route("/map",methods=['GET','POST'])
 def maptime():
@@ -254,6 +241,30 @@ def about():
 @app.route('/comp')
 def comp():
     return render_template('index.html')
+
+
+@app.route('/tester')
+def test():
+    userdata=UserModel.query.all()
+    menudata=MenuModel.query.all()
+    restaurantdata=RestaurantModel.query.all()
+    orderdata=OrderModel.query.all()
+    return render_template('test.html', userdata=userdata, menudata=menudata, restaurantdata=restaurantdata, orderdata=orderdata)
+
+
+@app.route('/contact')
+def contact():
+    print("getting contact")
+    return render_template('contact.html')        
+
+@app.route('/about')
+def about():
+    print("getting about")
+    return render_template('about.html')        
+
+# @app.route('/comp')
+# def comp():
+#     return render_template('index.html')
 
 
 @app.route('/tester')
