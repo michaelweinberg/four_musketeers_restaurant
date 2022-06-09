@@ -203,7 +203,7 @@ def delivery_time(customer_address):
   
     # Get method of requests module and return response object
      
-    req = requests.get(url + 'origins=' + source + '&destinations=' + destination + '&key=' + KEY)
+    req = requests.get(url + 'origins=' + source + '&destinations=' + destination + '&key=' + GOOGLE_API_KEY)
     # return json format result
     x = req.json()
 
