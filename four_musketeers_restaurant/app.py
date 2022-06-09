@@ -163,9 +163,9 @@ def checkout():
     for item in Data:
         totalprice+=float(item.price_each)*int(item.product_quantity)
     if request.method == 'POST':
-        if request.form["action"] == "conform":
+        if request.form["action"] == "confirm":
             for item in Data:
-                item.change_status("dilevering")
+                item.change_status("delivering")
                 db.session.commit()
                 # flash('Order Success!')
             return redirect('/map')
@@ -215,7 +215,7 @@ def delivery_time(customer_address):
 @app.route("/map",methods=['GET','POST'])
 def maptime():
     user=current_user
-    cur_order=OrderModel.query.filter_by(user_id=user.id, order_status='dilevering').first()
+    cur_order=OrderModel.query.filter_by(user_id=user.id, order_status='delivering').first()
     
     rest_name=cur_order.restaurant
     restaurant=RestaurantModel.query.filter_by(name=rest_name).first()
