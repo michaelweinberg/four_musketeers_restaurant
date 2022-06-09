@@ -6,17 +6,18 @@ from flask import Flask, render_template, request, redirect, flash, url_for
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField,SubmitField,SelectField
 from wtforms.validators import DataRequired, Length, EqualTo, Email
+from yelp import find_coffee
 import uuid
 from flask_login import current_user, login_user, login_required, logout_user
 from models import db, login, UserModel, RestaurantModel, MenuModel, OrderModel
-from seeks import DBUSER, DBPASS, DBHOST, DBPORT, DBNAME
-
+import datetime
+import requests, json
 
 class LoginForm(FlaskForm):
     name = StringField("username", validators=[DataRequired()])
     password = PasswordField("password", validators=[DataRequired()])
     submit = SubmitField("submit")
-
+    
 class SignupForm(FlaskForm):
     name=StringField(label="Enter name", validators=[DataRequired(), Length(min=1,max=16)])
     email=StringField(label="Enter email", validators=[DataRequired(),Email()])
@@ -31,19 +32,6 @@ class OrderForm(FlaskForm):
     restaurant=StringField(label="restaurant", validators=[DataRequired(),Length(min=1,max=160)])
     quanty=StringField(label="quanty", validators=[DataRequired(),Length(min=1,max=160)])
     submit=SubmitField(label="Add to cart")
-
-# class addmenuForm(FlaskForm):
-#     name=StringField(label="Enter name", validators=[DataRequired(),Length(min=1,max=160)])
-#     price=StringField(label="Enter price",validators=[DataRequired(), Length(min=1,max=16)])
-#     restaurant=StringField(label="Enter restaurant", validators=[DataRequired(),Length(min=1,max=160)])
-
-#     submit=SubmitField(label="Login")
-
-# class confirmForm(FlaskForm):
-#     order=OrderModel.query.filter_by(user_id=current_user.id,order_status="not complete").all()
-#     name=SelectField(label="name", validators=[DataRequired()],choices=order)
-#     submit=SubmitField(label="Confirm")
-
 
 app = Flask(__name__)
 app.secret_key="a secret"
@@ -79,78 +67,10 @@ def create_table():
         addUser("lhhung", "lhhung@uw.edu","qwerty","university of washington tocama", "1111111111")    
         return 
 
-# def addRestaurant(name, email, password, address, phone):
-#     #check if email or username exits
-#     user=UserModel()
-#     user.set_password(password)
-#     user.email=email
-#     user.name=name
-#     user.address=address
-#     user.phone=phone
-#     db.session.add(user)
-#     db.session.commit()
-
-# @app.route("/restaurantregister",methods=['GET','POST'])
-# def restaurantregister():
-#     form=registerForm()
-#     if form.validate_on_submit():
-#         if request.method == "POST":
-#             email=request.form["email"]
-#             name=request.form["name"] 
-#             address=request.form["address"]
-#             phone=request.form["phone"]
-#             pw=request.form["password"]
-#             restaurants = RestaurantModel.query.filter_by(email = email).first()
-#             print(restaurants)
-#             if restaurants is not None and restaurants.check_password(pw) :
-#                 login_user(restaurants)
-#                 return redirect('/restaurantsaddmenu')
-#             elif restaurants is not None and not restaurants.check_password(pw) :
-#                 return redirect('/restaurantslogin')
-#             else:
-#                 addRestaurant(name, email, pw, address, phone)
-#                 return redirect('/restaurantslogin')
-#     # return render_template("register.html")
-#     return render_template("restaurantsregister.html",form=form)
-
-# @app.route("/restaurantslogin",methods=['GET','POST'])
-# def restaurantslogin():
-#     form=loginForm()
-#     if form.validate_on_submit():
-#         if request.method == "POST":
-#             email=request.form["email"]
-#             pw=request.form["password"]
-#             restaurants = RestaurantModel.query.filter_by(email = email).first()
-#             if restaurants is not None and restaurants.check_password(pw) :
-#                 login_user(restaurants)
-#                 return redirect('/restaurantsaddmenu')
-#     return render_template("restaurantslogin.html",form=form)
-
-# def addmenu(name, price, restaurant):
-#     menu=MenuModel()
-#     menu.name=name
-#     menu.price=price
-#     menu.restaurant=restaurant
-#     db.session.add(menu)
-#     db.session.commit()
-
-# @app.route("/restaurantsaddmenu",methods=['GET','POST'])
-# def restaurantsaddmenu():
-#     form=addmenuForm()
-#     if form.validate_on_submit():
-#         if request.method == "POST":
-#             name=request.form["name"]
-#             price=request.form["price"]
-#             restaurant =request.form["restaurant"]
-#             addmenu(name,price,restaurant)
-#             myData=MenuModel.query.all()
-#             return render_template("menu.html", myData=myData)
-#     return render_template("restaurantsaddmenu.html",form=form)
-
-
 @app.route('/')
 def home():
     return render_template('home.html')
+
 
 @app.route("/login",methods=['GET','POST'])
 def login():
@@ -253,9 +173,43 @@ def checkout():
                 id=item.id
                 OrderModel.query.filter_by(id=id).delete()
                 db.session.commit()
-            return redirect('/order')
+                return redirect('/order')
 
-    return render_template("checkout.html", Data=Data, totalprice=totalprice)    
+    return render_template("checkout.html", Data=Data, totalprice=totalprice) 
+    
+#added this funtion 
+    
+
+def delivery_time(customer_address):
+       
+    #api key is required
+
+    # we need to add the add the code to read from a file here 
+  
+    # Take source as input
+    
+    #destination will be a fix point
+    #destination= input ("Enter Your Delivery Address: ")
+
+    destination = customer_address
+  
+    # Take destination as input from the database
+    #source = input("enter delivery address:")
+    source="933 Market St, Tacoma, WA 98402"
+  
+    # url variable store url 
+    url = "https://maps.googleapis.com/maps/api/distancematrix/json?key={0}&origins={1}&destinations={2}&mode=driving&language=en-EN&sensor=false".format(KEY,str(source),str(destination))
+  
+    # Get method of requests module and return response object
+     
+    req = requests.get(url + 'origins=' + source + '&destinations=' + destination + '&key=' + KEY)
+    # return json format result
+    x = req.json()
+
+    time = req.json()["rows"][0]["elements"][0]["duration"]["text"]
+
+    #returns the time
+    return(time)      
 
 @app.route("/map",methods=['GET','POST'])
 def maptime():
@@ -266,13 +220,36 @@ def maptime():
     restaurant=RestaurantModel.query.filter_by(name=rest_name).first()
     rest_add=restaurant.address
     user_add=user.address
+    time=delivery_time(user_add)
     mes=""
     mes+=rest_add
     mes+="-->"
     mes+=user_add
-    estiamtetime=" for 30mins"
-    mes+=estiamtetime
-    return render_template("map.html",message=mes)
+    return render_template("map.html",message=mes,time=time,user_add=user_add)
+
+
+@app.route('/contact')
+def contact():
+    print("getting contact")
+    return render_template('contact.html')        
+
+@app.route('/about')
+def about():
+    print("getting about")
+    return render_template('about.html')        
+
+@app.route('/comp')
+def comp():
+    return render_template('index.html')
+
+
+@app.route('/tester')
+def test():
+    userdata=UserModel.query.all()
+    menudata=MenuModel.query.all()
+    restaurantdata=RestaurantModel.query.all()
+    orderdata=OrderModel.query.all()
+    return render_template('test.html', userdata=userdata, menudata=menudata, restaurantdata=restaurantdata, orderdata=orderdata)
 
 
 @app.route('/contact')

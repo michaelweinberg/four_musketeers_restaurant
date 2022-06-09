@@ -1,49 +1,47 @@
 {% extends "base.html" %} {% block title %} Menu {% endblock %} {% block main %}
 <form class="bg-light p-3" method="POST" action="{{ url_for('checkout') }}">
   <div class="w3-container w3-black w3-padding-64 w3-xxlarge" id="checkout">
-    <div class="w3-content">
+      <div class="w3-content">
       
         <h1 class="w3-center w3-jumbo" style="margin-bottom:64px">Checkout</h1>
-          {% if error %}
-          <p class=error><strong>Error:</strong> {{ error }}
-          {% endif %}
+  {% if error %}
+  <p class=error><strong>Error:</strong> {{ error }}
+  {% endif %}
+<div class="w-50">
 
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Orderproduct</th>
+      <th scope="col">Price</th>
+      <th scope="col">Item Num</th>
+      <th scope="col">order_status</th>
+    </tr>
+  </thead>
+  <form method="post" action="/checkout">
+  <tbody>
+      {% for item in Data %}
+        <tr>          
+          <td class="align-middle"> <img src= {{ item ["thumbnail"]  }} style="max-height:50px;max-width:50px;"> {{item['product_name']}}</td>			
+          <td class="align-middle">{{ item['price_each']}}</td>
+          <td class="align-middle">{{ item['product_quantity']}}</td>
+          <td class="align-middle">{{ item['order_status']}}</td>						
+        </tr>
+      {% endfor %}
+        <tr>
 
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">Orderproduct</th>
-              <th scope="col">Price</th>
-              <th scope="col">Item Num</th>
-              <th scope="col">order_status</th>
-            </tr>
-          </thead>
-          <form method="post" action="/checkout">
-          <tbody>
-              {% for item in Data %}
-                <tr>          
-                  <td class="align-middle"> {{item['product_name']}}</td>			
-                  <td class="align-middle">{{ item['price_each']}}</td>
-                  <td class="align-middle">{{ item['product_quantity']}}</td>
-                  <td class="align-middle">{{ item['order_status']}}</td>						
-                </tr>
-              {% endfor %}
-                <tr>
+          <th scope="col">Total price</th>
 
-                  <th scope="col">Total price</th>
+          <th scope="col">{{totalprice}}</th>
+        </tr>
+      <tr>
+        <td>  <input type="submit" name="action" value="conform" style="margin: 15px; font-size: 16px; float: right; color: #FBB448; background-color: white; font-size: 16px; outline:none; border: 1px solid #FBB448; border-radius: 10px;"></td> 
 
-                  <th scope="col">{{totalprice}}</th>
-                </tr>
-              <tr>
-                <td>  <input type="submit" name="action" value="conform" style="margin: 15px; font-size: 16px; float: right; color: #FBB448; background-color: white; font-size: 16px; outline:none; border: 1px solid #FBB448; border-radius: 10px;"></td> 
-
-                <!-- <td>  <button name="submit" type="submit" value="1" class="btn btn-primary">confirm order</button></td> -->
-                <td>  <input type="submit" name="action" value="cancel" style="margin: 15px; font-size: 16px; float: right; color: #FBB448; background-color: white; font-size: 16px; outline:none; border: 1px solid #FBB448; border-radius: 10px;"></td> 
-              </tr>
-          </tbody>
-          
-        </table>
-    </div>
-  </div> 
-</form>
+        <!-- <td>  <button name="submit" type="submit" value="1" class="btn btn-primary">confirm order</button></td> -->
+        <td>  <input type="submit" name="action" value="cancel" style="margin: 15px; font-size: 16px; float: right; color: #FBB448; background-color: white; font-size: 16px; outline:none; border: 1px solid #FBB448; border-radius: 10px;"></td> 
+      </tr>
+  </tbody>
+  </form>
+</table>
+</div> 
  {% endblock %}
