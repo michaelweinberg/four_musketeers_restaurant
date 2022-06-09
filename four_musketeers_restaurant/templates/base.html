@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amatic+SC">
-<link rel="stylesheet" href="../static/styles/styles.css">
+<!-- <link rel="stylesheet" href="../static/styles/styles.css"> -->
 <style>
 body, html {height: 100%}
 body,h1,h2,h3,h4,h5,h6 {font-family: "Amatic SC", sans-serif}
@@ -14,7 +14,9 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Amatic SC", sans-serif}
 .bgimg {
   background-repeat: no-repeat;
   background-size: cover;
-  background-image: url("/static/images/pizza.jpg");
+  background-image: url("https://www.w3schools.com/w3images/pizza.jpg");
+  min-height: 90%;
+  /* background-image: url("/static/images/pizza.jpg"); */
   /* min-height: 90%; */
   min-height:500px;
 }
@@ -29,11 +31,13 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Amatic SC", sans-serif}
 <div class="w3-top w3-hide-small">
   <div class="w3-bar w3-xlarge w3-black w3-opacity w3-hover-opacity-off" id="myNavbar">
     <a href="/" class="w3-bar-item w3-button">HOME</a>
+    <a href="/order" class="w3-bar-item w3-button">ORDER</a>
     <a href="/menu" class="w3-bar-item w3-button">MENU</a>
     <a href="/about" class="w3-bar-item w3-button">ABOUT</a>
     <a href="/contact" class="w3-bar-item w3-button">CONTACT</a>
     <a href="/login" class="w3-bar-item w3-button">LOGIN</a>
-    <a href="/register" class="w3-bar-item w3-button">REGISTER</a>
+    <a class="w3-bar-item w3-button {{ 'active' if current_user.is_authenticated else 'disabled' }}" href="/logout">LOGOUT</a>
+    <a href="/signup" class="w3-bar-item w3-button">REGISTER</a>
   </div>
 </div>
 

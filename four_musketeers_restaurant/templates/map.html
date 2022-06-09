@@ -1,7 +1,14 @@
-{% extends "base.html" %}
-{% set active_page = 'map' %}
-{% block title %} Map {% endblock %}
-{% block content %}
-<p>{{msg}}</p>
-{{ message }}
- {% endblock %}
+{% extends "base.html" %} {% block title %} Sign-Up {% endblock %} {% block main %}
+<form class="bg-light p-3" method="POST" action="{{ url_for('maptime') }}">
+    <div class="w3-container w3-padding-64 w3-blue-grey w3-grayscale-min w3-xxlarge" id="map">
+        <div class="w3-content">
+
+            <h1 class="text-center text-white">Delevering Pizza</h1>
+            <h1 class="w3-center w3-jumbo" style="margin-bottom:64px">zestimate delevring time</h1>
+        
+                {{message}}
+
+        </div>
+    </div>
+    
+    {% endblock %}
