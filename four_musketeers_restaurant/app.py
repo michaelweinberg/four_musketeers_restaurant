@@ -12,6 +12,7 @@ from flask_login import current_user, login_user, login_required, logout_user
 from models import db, login, UserModel, RestaurantModel, MenuModel, OrderModel
 import datetime
 import requests, json
+from seeks import DBUSER, DBPASS, DBHOST, DBPORT, DBNAME, GOOGLE_API_KEY
 
 class LoginForm(FlaskForm):
     name = StringField("username", validators=[DataRequired()])
@@ -198,7 +199,7 @@ def delivery_time(customer_address):
     source="933 Market St, Tacoma, WA 98402"
   
     # url variable store url 
-    url = "https://maps.googleapis.com/maps/api/distancematrix/json?key={0}&origins={1}&destinations={2}&mode=driving&language=en-EN&sensor=false".format(KEY,str(source),str(destination))
+    url = "https://maps.googleapis.com/maps/api/distancematrix/json?key={0}&origins={1}&destinations={2}&mode=driving&language=en-EN&sensor=false".format(GOOGLE_API_KEY,str(source),str(destination))
   
     # Get method of requests module and return response object
      
@@ -243,24 +244,14 @@ def comp():
     return render_template('index.html')
 
 
-@app.route('/tester')
-def test():
-    userdata=UserModel.query.all()
-    menudata=MenuModel.query.all()
-    restaurantdata=RestaurantModel.query.all()
-    orderdata=OrderModel.query.all()
-    return render_template('test.html', userdata=userdata, menudata=menudata, restaurantdata=restaurantdata, orderdata=orderdata)
-
-
-@app.route('/contact')
-def contact():
-    print("getting contact")
-    return render_template('contact.html')        
-
-@app.route('/about')
-def about():
-    print("getting about")
-    return render_template('about.html')        
+# @app.route('/tester')
+# def test():
+#     userdata=UserModel.query.all()
+#     menudata=MenuModel.query.all()
+#     restaurantdata=RestaurantModel.query.all()
+#     orderdata=OrderModel.query.all()
+#     return render_template('test.html', userdata=userdata, menudata=menudata, restaurantdata=restaurantdata, orderdata=orderdata)
+     
 
 # @app.route('/comp')
 # def comp():
